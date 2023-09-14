@@ -3,22 +3,14 @@ import { Request, Response, NextFunction } from "express";
 class TodoController {
   constructor() {}
 
-  public async index(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<any> {
+  public async index(): Promise<any> {
     console.log("Todo index.");
-    res.json([{ todo: 'this' }, { todo: 'that' }]);
+    return [{ todo: 'this' }, { todo: 'that' }];
   }
 
-  public async create(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<any> {
+  public async create(): Promise<any> {
     console.log("Created todo.");
-    return { status: "success", code: 201 };
+    return;
   }
 }
 
