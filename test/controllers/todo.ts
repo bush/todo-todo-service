@@ -1,4 +1,4 @@
-import Todo from "../../controllers/todo";
+import Todo from "../../src/controllers/todo";
 
 let assert = require("assert");
 

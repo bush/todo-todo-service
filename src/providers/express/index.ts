@@ -1,12 +1,12 @@
 import express, { Request, Response, NextFunction, Router } from 'express';
 
-import router from './router'
+import todo from './todo-routes'
 
 const port = process.env.PORT || 3030;
 
 const app = express();
 
-app.use("/", router)
+app.use("/", todo);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log(err)
