@@ -1,0 +1,8 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "todo-app"
+resolve_s3 = true
+s3_prefix = "todo-app"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = ["ExpressFunction=330481019669.dkr.ecr.us-east-1.amazonaws.com/todoapp8df0446d/expressfunction9fcbc1barepo"]

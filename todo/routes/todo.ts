@@ -1,12 +1,12 @@
 import express, { Request, Response } from "express";
-import Todo from "../../controllers/todo";
+import Todo from "../controllers/todo";
 
 const todo = express.Router();
 export default todo;
 
 todo.get("/", (req: Request, res: Response) => {
   res.json({
-    msg: "Api up and running!",
+    msg: "A dog!",
   });
 });
 

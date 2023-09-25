@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-class TodoController {
+class Todo {
   constructor() {}
 
   public async index(): Promise<any> {
@@ -14,4 +14,4 @@ class TodoController {
   }
 }
 
-export default TodoController;
+export default Todo;

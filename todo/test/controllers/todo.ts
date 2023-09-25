@@ -1,4 +1,5 @@
-import Todo from "../../src/controllers/todo";
+import { describe } from "mocha";
+import Todo from "../../controllers/todo";
 
 let assert = require("assert");
 

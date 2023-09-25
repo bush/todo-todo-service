@@ -1,8 +1,10 @@
+import Locals from './providers/locals';
 import express, { Request, Response, NextFunction, Router } from 'express';
 
-import todo from './todo-routes'
+import todo from './routes/todo'
 
-const port = process.env.PORT || 3030;
+const port: number = Locals.config().port;
+console.log(port);
 
 const app = express();
 
