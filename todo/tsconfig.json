@@ -9,11 +9,12 @@
     "skipLibCheck": true
   },
   "exclude": [
-    "node_modules",
-    "test"
+    "./node_modules",
+    "test",
+    "./**/*.txt"
   ],
   "include": [
-    "./**/*.tsx",
-    "./**/*.ts"
+    "./**/*.ts",
+    "./**/*.tsx"
   ]
 }

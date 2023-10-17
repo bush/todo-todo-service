@@ -1,11 +1,12 @@
-import Locals from './providers/locals';
+import Config from './providers/config';
 import express, { Request, Response, NextFunction, Router } from 'express';
+import * as path from 'path';
+
 
 import todo from './routes/todo'
 
-const port: number = Locals.config().port;
-console.log(port);
-
+const port = new Config().load(path.join(__dirname,'.env')).port;
+console.log(`port: ${port}`);
 const app = express();
 
 app.use("/", todo);
