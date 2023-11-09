@@ -1,13 +1,19 @@
+import LoggerFactory from "./loggerFactory";
+
 class Logger {
   constructor() {}
 
-  static create(): Logger {
-    return new Logger();
+  private strategy = LoggerFactory.create();
+
+  public use(strategy: string): void {
+    console.log("Logger created.");
+    this.strategy = LoggerFactory.create(strategy);
   }
 
   public info(msg: string): void {
-    console.log(`INFO: ${msg}`);
+    this.strategy.info(msg);
   }
 }
 
-export default Logger.create();
+
+export default new Logger();

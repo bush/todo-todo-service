@@ -26,7 +26,10 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.445.0",
+    "@aws-sdk/lib-dynamodb": "^3.445.0",
     "express-validator": "^7.0.1",
-    "lusca": "^1.7.0"
+    "lusca": "^1.7.0",
+    "mongodb": "^6.1.0"
   }
 }

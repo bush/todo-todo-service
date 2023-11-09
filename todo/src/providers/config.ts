@@ -15,7 +15,7 @@ class Config {
     return {
       maxUploadLimit,
       database: {
-        type: process.env.DATABASE_TYPE || 'basic-local',
+        type: process.env.DATABASE_TYPE || 'basic',
         url: process.env.DATABASE_URL || 'mongodb://localhost:27017/todo',
       },
       port,
