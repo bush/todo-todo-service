@@ -1,16 +1,113 @@
 import logger from "../../logging/logger";
-import { INimkeeDBCollection } from "../interface";
+import {
+  NimkeeDocDBClient,
+  INimkeeDocDB,
+  INimkeeDocDBCollection,
+  NimkeeDocDBCollectionOptions,
+  INimkeeDocDBDocument,
+} from "../interface";
+import { BatchWriteCommand, DynamoDBDocumentPaginationConfiguration } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import util from "util";
+import * as CONSTANTS from "../constants";
 
-class Collection implements INimkeeDBCollection {
-  private collectionName: string;
+interface NimkeeDynamoDBCollectionOptions {
+  pkName?: string;
+  skNames?: string[];
+}
 
-  constructor(collectionName: string) {
-    this.collectionName = collectionName;
-    logger.info(`collectionName: ${this.collectionName}`);
+class Collection implements INimkeeDocDBCollection {
+  s: any;
+  client: DynamoDBDocumentClient;
+
+  constructor(
+    db: INimkeeDocDB,
+    name: string,
+    options: NimkeeDocDBCollectionOptions = {}
+  ) {
+
+    this.s = {
+      db,
+      name,
+      options,
+    };
+
+    logger.info(`collectionName: ${this.s.name}`);
+   
+
+    this.client = db.client.client as DynamoDBDocumentClient;
   }
 
-  insertMany() {
+  private chunkArray(array: any[], chunkSize: number): any[][] {
+    const result = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      result.push(array.slice(i, i + chunkSize));
+    }
+    return result;
+  }
+
+  // The basic idea is to resolve which values belong to the partition key,
+  // and which values belong to the sort key and add a sort key prefix if
+  // provided.  If the partition key is not specified, then insert
+  // a default as the partition key value. If no sort keys are
+  // specified, then insert 'nimkee-sk-default' as the sort key value.
+  private resolveCollectionMap(
+    document: INimkeeDocDBDocument
+  ): INimkeeDocDBDocument {
+
+    const tableName = this.s.db.tableName;
+    const pkName = this.s.options.pkName || CONSTANTS.DEFAULT_PARTITION_KEY_NAME;
+    const skNames = this.s.options.skNames || [];
+
+    // Partition key value
+    const pkValue = document[pkName] || CONSTANTS.DEFAULT_PARTITION_KEY_VALUE;
+
+    // Sort key
+    let skValue = this.s.name;
+
+    // Chain the sort key names together but if one is missing then stop
+    // and do not continue to chain any reamining sort key names.
+    for (const name of skNames) {
+      if (document[name]) {
+       skValue += `#${document[name]}`;
+      } else {
+        logger.warn(`Sort key name ${name} not found in document.`);
+        break;
+      }
+    }
+
+    document[this.s.db.pkName] = pkValue;
+    document[this.s.db.skName] = skValue;
+
+    return document;
+  }
+
+  async insertMany(documents: INimkeeDocDBDocument[]): Promise<any> {
     logger.info(`insertMany`);
+    const documentChunks = this.chunkArray(documents, 25);
+
+    // For every chunk of 25 movies, make one BatchWrite request.
+    for (const chunk of documentChunks) {
+      const putRequests = chunk.map((item) => ({
+        PutRequest: {
+          Item: this.resolveCollectionMap(item),
+        },
+      }));
+
+      const command = new BatchWriteCommand({
+        RequestItems: {
+          // An existing table is required. A composite key of 'title' and 'year' is recommended
+          // to account for duplicate titles.
+          [this.s.db.tableName]: putRequests,
+        },
+      });
+
+      logger.info(util.inspect(putRequests, { depth: 10 }));
+      const result = await this.client.send(command);
+      return result;
+    }
+
     return {};
   }
 

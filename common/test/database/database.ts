@@ -1,7 +1,7 @@
 import { describe } from "mocha";
 import DatabaseFactory from "../../database/databaseFactory";
 import dbData from "./db.json";
-import { NimkeeDBClient, NimkeeDB, NimkeeDBCollection } from "../../database/interface";
+import { NimkeeDocDBClient, NimkeeDocDB, NimkeeDocDBCollection } from "../../database/interface";
 
 interface Pet {
   name: string;
@@ -19,29 +19,29 @@ const databases = [
   }
 ];
 
-const dbInfo = databases[1];
+const dbInfo = databases[0];
 
 describe(`Database Adapter: ${dbInfo.name}`, () => {
 
-  let database: NimkeeDB;
-  let client: NimkeeDBClient;
-  let collection: NimkeeDBCollection;
+  let database: NimkeeDocDB;
+  let client: NimkeeDocDBClient;
+  let collection: NimkeeDocDBCollection;
 
   before(async () => {
     client = DatabaseFactory.create(dbInfo.name, dbInfo.options.url);
-    database = client.db("todo");
-    collection = await database.collection("todo");
+    database = client.db("todo1");
+    collection = await database.collection("todo", { pkName: "last_name"} );
     const result = await collection.insertMany(dbData);
     console.log('Inserted documents =>', result);
   });
 
   after(async () => {
-    await collection.drop();
-    client.close();
+    //await collection.drop();
+    //client.close();
   });
 
   it("Find a document", async () => {
-    const result = await collection.find({}).toArray();
-    console.log("Found documents =>", result);
+    //const result = await collection.find({}).toArray();
+    //console.log("Found documents =>", result);
   });
 });

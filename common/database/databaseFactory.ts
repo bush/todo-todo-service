@@ -1,17 +1,17 @@
 import { MongoClient, MongoClientOptions } from 'mongodb';
-import { NimkeeDBClient } from './interface';
-import  DynamodbClient  from "./dynamodb/client";
+import { Client as DynamoDBClient } from './dynamodb/client';
+import { NimkeeDocDBClient } from './interface';
 
 class Database {
-  static create(strategy: string, url: string, options?: any ): NimkeeDBClient {
+  static create(strategy: string, url: string, options?: any ): NimkeeDocDBClient {
     switch (strategy) {
       case 'dynamodb':
-        return new DynamodbClient(url);
+        return new DynamoDBClient(url);
       case 'mongo':
           return new MongoClient(url, options as MongoClientOptions);
         
       default:
-        return new DynamodbClient(url);
+        return new DynamoDBClient(url);
     }
   }
 }
