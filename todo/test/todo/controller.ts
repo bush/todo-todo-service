@@ -1,0 +1,14 @@
+import { describe } from "mocha";
+import StorageProviderFactory from "../../todo/storage-factory";
+import Todo from "../../todo/controller";
+
+let assert = require("assert");
+
+describe("Todo Controller", () => {
+  const storageProvider = StorageProviderFactory.create("dynamodb");
+  const todo = new Todo(storageProvider);
+
+  it("Create a todo", async () => {
+    todo.create({ id: "abc", note: "this this abc note" });
+  });
+});

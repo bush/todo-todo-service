@@ -1,6 +1,10 @@
 import logger from "../../logging/logger";
 import Collection from "./collection";
 import * as CONSTANTS from "../constants";
+
+import { DynamoDBClient, DescribeTableCommand, CreateTableCommand, CreateTableCommandInput, ScalarAttributeType, KeySchemaElement, AttributeDefinition } from "@aws-sdk/client-dynamodb";
+
+
 import {
   NimkeeDocDBOptions,
   NimkeeDocDBCollectionOptions,
@@ -35,6 +39,8 @@ class Db implements INimkeeDocDB {
     // TODO: Try to create the table if it doesn't exist
     // client.createTable(tableName, options.pk, options.sk);
   }
+
+  
 
   public get tableName() {
     return this.s.tableName;

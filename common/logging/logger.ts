@@ -10,16 +10,16 @@ class Logger {
     this.strategy = LoggerFactory.create(strategy);
   }
 
-  public warn(msg: any): void {
-    this.strategy.warn(msg);
+  public warn(...data: any[]): void {
+    this.strategy.warn(...data);
   }
 
-  public error(msg: any): void {
-    this.strategy.error(msg);
+  public error(...data: any[]): void {
+    this.strategy.error(...data);
   }
 
-  public info(msg: any): void {
-    this.strategy.info(msg);
+  public info(...data: any[]): void {
+    this.strategy.info(...data);
   }
 }
 

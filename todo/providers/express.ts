@@ -1,6 +1,6 @@
-import ExpressBase from "../../../common/express/express";
-import DatabaseFactory from "../../../common/database/databaseFactory";
-import logger from "../../../common/logging/logger";
+import ExpressBase from "../../common/express/express";
+import DatabaseFactory from "../../common/database/database-factory";
+import logger from "../../common/logging/logger";
 import * as path from 'path';
 
 class Express extends ExpressBase {
@@ -11,11 +11,11 @@ class Express extends ExpressBase {
   // Load database
   public loadDatabase(): void {
     logger.info(`url: ${this.express.locals.config.database.type}`);
-    const db = DatabaseFactory.create(
+    const client = DatabaseFactory.create(
       this.express.locals.config.database.type,
       path.join(process.cwd(),this.express.locals.config.database.url)
     );
-    this.express.locals.database = db;
+    this.express.locals.dbClient = client;
   }
 }
 

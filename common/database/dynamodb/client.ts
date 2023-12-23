@@ -4,7 +4,7 @@ import logger from "../../logging/logger";
 import { INimkeeDocDBClient, INimkeeDocDB, NimkeeDocDBOptions } from "../interface";
 import Collection from "./collection";
 import Db from "./db";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, DescribeTableCommand, CreateTableCommand, CreateTableCommandInput, ScalarAttributeType, KeySchemaElement, AttributeDefinition } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 
 // TODO: add options
@@ -19,10 +19,6 @@ export class Client implements INimkeeDocDBClient {
     const client = new DynamoDBClient({});
     this.client = DynamoDBDocumentClient.from(client);
     this.url = url;
-  }
-  
-  get dbClient() {
-    return this.client;
   }
 
   db(dbName?: string, options?: NimkeeDocDBOptions): INimkeeDocDB {

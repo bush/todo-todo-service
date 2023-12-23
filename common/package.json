@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "mocha --require ts-node/register test/**/*.ts",
+    "test-some": "mocha --require ts-node/register",
     "build": "tsc",
     "watch": "tsc -w",
     "start": "node dist/index.js",
@@ -28,6 +29,7 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.445.0",
     "@aws-sdk/lib-dynamodb": "^3.445.0",
+    "electrodb": "^2.12.1",
     "express-validator": "^7.0.1",
     "lusca": "^1.7.0",
     "mongodb": "^6.1.0"

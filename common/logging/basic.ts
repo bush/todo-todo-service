@@ -2,16 +2,16 @@ import { ILogger } from "./interface";
 
 class BasicLogger implements ILogger {
 
-  public info(msg: any): void {
-    console.info(`BASIC LOGGER INFO: ${msg}`);
+  public info(...data: any[]): void {
+    console.info(...data);
   }
 
-  public warn(msg: any): void {
-    console.warn(`BASIC LOGGER WARN: ${msg}`);
+  public warn(...data: any[]): void {
+    console.warn(...data);
   }
-  
-  public error(msg: any): void {
-    console.error(`BASIC LOGGER ERROR: ${msg}`);
+
+  public error(...data: any[]): void {
+    console.error(...data);
   }
 }
 

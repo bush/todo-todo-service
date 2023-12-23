@@ -6,9 +6,19 @@ import {
   NimkeeDocDBCollectionOptions,
   INimkeeDocDBDocument,
 } from "../interface";
-import { BatchWriteCommand, DynamoDBDocumentPaginationConfiguration } from "@aws-sdk/lib-dynamodb";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+
+import {
+  BatchWriteCommand,
+  DynamoDBDocumentClient,
+} from "@aws-sdk/lib-dynamodb";
+
+import {
+  CreateTableCommand,
+  KeySchemaElement,
+  AttributeDefinition,
+} from "@aws-sdk/client-dynamodb";
+
+import { DynamoDB } from "./table";
 import util from "util";
 import * as CONSTANTS from "../constants";
 
@@ -19,24 +29,20 @@ interface NimkeeDynamoDBCollectionOptions {
 
 class Collection implements INimkeeDocDBCollection {
   s: any;
-  client: DynamoDBDocumentClient;
 
   constructor(
     db: INimkeeDocDB,
     name: string,
     options: NimkeeDocDBCollectionOptions = {}
   ) {
-
     this.s = {
       db,
+      dynamodb: new DynamoDB(db.client.client),
       name,
       options,
     };
 
     logger.info(`collectionName: ${this.s.name}`);
-   
-
-    this.client = db.client.client as DynamoDBDocumentClient;
   }
 
   private chunkArray(array: any[], chunkSize: number): any[][] {
@@ -55,9 +61,9 @@ class Collection implements INimkeeDocDBCollection {
   private resolveCollectionMap(
     document: INimkeeDocDBDocument
   ): INimkeeDocDBDocument {
-
     const tableName = this.s.db.tableName;
-    const pkName = this.s.options.pkName || CONSTANTS.DEFAULT_PARTITION_KEY_NAME;
+    const pkName =
+      this.s.options.pkName || CONSTANTS.DEFAULT_PARTITION_KEY_NAME;
     const skNames = this.s.options.skNames || [];
 
     // Partition key value
@@ -70,7 +76,7 @@ class Collection implements INimkeeDocDBCollection {
     // and do not continue to chain any reamining sort key names.
     for (const name of skNames) {
       if (document[name]) {
-       skValue += `#${document[name]}`;
+        skValue += `#${document[name]}`;
       } else {
         logger.warn(`Sort key name ${name} not found in document.`);
         break;
@@ -84,8 +90,37 @@ class Collection implements INimkeeDocDBCollection {
   }
 
   async insertMany(documents: INimkeeDocDBDocument[]): Promise<any> {
+    for (const document of documents) {
+      const tableName = this.s.db.tableName;
+      const pkName =
+        this.s.options.pkName || CONSTANTS.DEFAULT_PARTITION_KEY_NAME;
+      const skNames = this.s.options.skNames || [];
+
+      // Partition key value
+      const pkValue = document[pkName] || CONSTANTS.DEFAULT_PARTITION_KEY_VALUE;
+
+      // Sort key
+      let skValue = this.s.name;
+
+      // Chain the sort key names together but if one is missing then stop
+      // and do not continue to chain any reamining sort key names.
+      for (const name of skNames) {
+        if (document[name]) {
+          skValue += `#${document[name]}`;
+        } else {
+          logger.warn(`Sort key name ${name} not found in document.`);
+          break;
+        }
+      }
+
+      document[this.s.db.pkName] = pkValue;
+      document[this.s.db.skName] = skValue;
+    }
+    /*
     logger.info(`insertMany`);
     const documentChunks = this.chunkArray(documents, 25);
+
+    let results = [];
 
     // For every chunk of 25 movies, make one BatchWrite request.
     for (const chunk of documentChunks) {
@@ -103,11 +138,14 @@ class Collection implements INimkeeDocDBCollection {
         },
       });
 
-      logger.info(util.inspect(putRequests, { depth: 10 }));
-      const result = await this.client.send(command);
-      return result;
-    }
 
+      //logger.info(util.inspect(putRequests, { depth: 10 }));
+      logger.info(`sending batch write command`);
+      //results.push(this.send(this.s.db.tableName, command));
+      //results.push(this.client.send(command));
+      
+    }
+*/
     return {};
   }
 

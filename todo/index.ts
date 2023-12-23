@@ -3,7 +3,7 @@ import express, { Request, Response, NextFunction, Router } from 'express';
 import * as path from 'path';
 
 
-import todo from './routes/todo'
+import todo from './todo/routes'
 
 const port = new Config().load(path.join(__dirname,'.env')).port;
 console.log(`port: ${port}`);
