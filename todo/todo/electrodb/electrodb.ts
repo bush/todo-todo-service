@@ -52,7 +52,7 @@ const Todo = new Entity(
 );
 
 class ElectroDBTodoStorage implements TodoStorageProvider {
-
+  magic = 1;
   constructor(client: DynamoDBClient, tableName: string) {
     Todo.setTableName(tableName);
     Todo.setClient(client);

@@ -1,14 +1,33 @@
-import express, { Request, Response } from "express";
-import Todo from "./controller";
+import express, { Request, Response, NextFunction } from "express";
+import StorageProviderFactory from "./storage-factory";
+import TodosController from "./controller";
+import ExpressApp from "../../common/express/express";
 
-const todo = express.Router();
-export default todo;
+import util from "util";
+import logger from "../../common/logging/logger";
 
-todo.post("/todos", async (req: Request, res: Response) => {
-  console.log("POST /todos");
-  //const todoController = req.app.locals.todoController;
-  //const id = req.body.id;
-  //const note = req.body.note;
-  //const ret = await todoController.create({ id, note });
-  //res.end();
-});
+class TodosRouter {
+  public static init(app: ExpressApp) {
+    const storageProvider = StorageProviderFactory.create("electrodb");
+    const todosController = new TodosController(storageProvider);
+    const todosRouter = express.Router();
+
+    todosRouter.post(
+      "/todos",
+      async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const todo = await todosController.create(req.body);
+          res.json({ status: "success", data: todo });
+        } catch (err: any) {
+          err.message = err.message ? err.message : "Error creating todo";
+          logger.error(`Error creating todo: ${err.message}`);
+          next(err);
+        }
+      }
+    );
+
+    app.express.use("/api/v1", todosRouter);
+  }
+}
+
+export default TodosRouter;

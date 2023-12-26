@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
-    "outDir": "app/dist",
+    "outDir": "dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -13,6 +13,6 @@
     "test",
   ],
   "include": [
-    "**/*.ts", "todo-controller/routes.ts",
+    "**/*.ts",
   ]
 }

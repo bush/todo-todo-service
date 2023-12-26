@@ -1,8 +1,6 @@
 import { MongoClient, MongoClientOptions } from "mongodb";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
-import DynamoDB from "./dynamodb/table";
-
 export interface NimkeeDBOptions {
   [key: string]: any;
 }

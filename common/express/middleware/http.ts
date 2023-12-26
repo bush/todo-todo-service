@@ -1,25 +1,21 @@
-
-import { Application } from "express";
-import * as bodyParser from 'body-parser';
 import logger from "../../logging/logger";
+import express from 'express';
+import ExpressApp from "../express";
 
 class Http {
-  public static mount(express: Application): void {
-    logger.info("Booting HTTP middleware...");
+  public static init(expressApp: ExpressApp): void {
+    logger.info(`Booting HTTP middleware`);
+    const app = expressApp.express;
 
-    // Enables the request body parser
-    express.use(bodyParser.json({
-			limit: express.locals.config.maxUploadLimit
-		}));
+    app.use(express.json({ limit: app.locals.config.maxUploadLimit }));
 
-    express.use(bodyParser.urlencoded({
-			limit: express.locals.config.maxUploadLimit,
-			parameterLimit: express.locals.config.maxParameterLimit,
+    app.use(express.urlencoded({
+			limit: app.locals.config.maxUploadLimit,
+			parameterLimit: app.locals.config.maxParameterLimit,
 			extended: false
 		}));
 
-    // Disable the x-powered-by header in response
-		express.disable('x-powered-by');
+		app.disable('x-powered-by');
   }
 }
 

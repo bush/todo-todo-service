@@ -8,15 +8,7 @@ class Express extends ExpressBase {
     super(config);
   }
 
-  // Load database
-  public loadDatabase(): void {
-    logger.info(`url: ${this.express.locals.config.database.type}`);
-    const client = DatabaseFactory.create(
-      this.express.locals.config.database.type,
-      path.join(process.cwd(),this.express.locals.config.database.url)
-    );
-    this.express.locals.dbClient = client;
-  }
+  // App customizations
 }
 
 export default Express;

@@ -46,7 +46,7 @@ class StorageProviderFactory {
           "todo5"
         );
     }
-
+    
     return result;
   }
 }

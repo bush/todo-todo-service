@@ -2,12 +2,19 @@
 import * as dotenv from "dotenv";
 
 class Config {
+  
+  path: string;
+
+  constructor(path: string) {
+    this.path = path;
+  }
+
   /**
    * Makes env configs available for your app
    * throughout the app's runtime
    */
-  public load(conf: string): any {
-    dotenv.config({ path: conf });
+  public load(): any {
+    dotenv.config({ path: this.path });
     const url = process.env.APP_URL || `http://localhost:${process.env.PORT}`;
     const port = process.env.PORT || 4000;
     const maxUploadLimit = process.env.APP_MAX_UPLOAD_LIMIT || '50mb';

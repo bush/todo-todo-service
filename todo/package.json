@@ -8,7 +8,7 @@
     "test-some": "mocha --require ts-node/register",
     "build": "tsc",
     "watch": "tsc -w",
-    "dev": "nodemon dist/todo/index1.js",
+    "dev": "nodemon dist/todo/index.js",
     "start": "node dist/todo/index.js"
   },
   "keywords": [],
