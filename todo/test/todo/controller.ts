@@ -4,7 +4,7 @@ import Todo from "../../todo/controller";
 
 let assert = require("assert");
 
-describe("Todo Controller", () => {
+describe("Todos Controller", () => {
   const storageProvider = StorageProviderFactory.create("dynamodb");
   const todo = new Todo(storageProvider);
 
