@@ -14,15 +14,13 @@ class TodosRouter {
 
     todosRouter.post(
       "/todos",
-      async (req: Request, res: Response, next: NextFunction) => {
-        try {
-          const todo = await todosController.create(req.body);
-          res.json({ status: "success", data: todo });
-        } catch (err: any) {
-          err.message = err.message ? err.message : "Error creating todo";
-          logger.error(`Error creating todo: ${err.message}`);
-          next(err);
-        }
+      async (req: Request, res: Response, next: NextFunction) => {   
+          try {
+            await todosController.create(req.body);
+            res.send({ status: "success" }); 
+          } catch (err) {
+            next(err);
+          }
       }
     );
 

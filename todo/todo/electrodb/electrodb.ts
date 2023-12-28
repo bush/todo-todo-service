@@ -52,7 +52,6 @@ const Todo = new Entity(
 );
 
 class ElectroDBTodoStorage implements TodoStorageProvider {
-  magic = 1;
   constructor(client: DynamoDBClient, tableName: string) {
     Todo.setTableName(tableName);
     Todo.setClient(client);
@@ -60,8 +59,7 @@ class ElectroDBTodoStorage implements TodoStorageProvider {
 
   async create(options: TodoProviderCreateOptions) {
     const { note, id } = options;
-    const result = await Todo.create({ note: note, id }).go();
-    return result.data;
+    await Todo.create({ note: note, id }).go();
   }
 }
 

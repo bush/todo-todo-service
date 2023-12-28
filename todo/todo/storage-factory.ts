@@ -17,7 +17,7 @@ export type TodoProviderCreateOptions = {
 };
 
 export interface TodoStorageProvider {
-  create(options: TodoProviderCreateOptions): Promise<TodoItem>;
+  create(options: TodoProviderCreateOptions): Promise<void>;
 }
 
 class StorageProviderFactory {

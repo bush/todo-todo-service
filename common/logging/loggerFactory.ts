@@ -1,4 +1,5 @@
 import BasicLogger from "./basic";
+import NullLogger from "./null";
 import { ILogger } from "./interface";
 
 class LoggerFactory {
@@ -6,6 +7,8 @@ class LoggerFactory {
         switch (strategy) {
             case "basic":
                 return new BasicLogger();
+            case "null":
+                return new NullLogger();
             default:
               return new BasicLogger();
         }
