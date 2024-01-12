@@ -1,4 +1,4 @@
-import { ILogger } from "./interface";
+import { ILogger } from "./loggerFactory";
 
 class BasicLogger implements ILogger {
 

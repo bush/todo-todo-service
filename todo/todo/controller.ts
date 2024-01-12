@@ -1,19 +1,16 @@
-import { TodoStorageProvider } from "./storage-factory";
-import { Router } from 'express';
-import util from 'util';
-type TodoItem = { id: string; note: string };
+import { ITodosController, ITodoRepo, TodoItem } from "./interface";
 
-class TodosController {
-  private storageProvider: TodoStorageProvider;
-  public router = Router();
+class TodoController implements ITodosController {
+  private todoRepo: ITodoRepo;
 
-  constructor(storageProvider: TodoStorageProvider) {
-    this.storageProvider = storageProvider;
+  constructor(todoRepo: ITodoRepo) {
+    this.todoRepo = todoRepo;
   }
 
   public async create(todo: TodoItem): Promise<any> {
-     return this.storageProvider.create(todo); 
+     return this.todoRepo.create(todo); 
   }
 }
 
-export default TodosController;
+export default TodoController;
+

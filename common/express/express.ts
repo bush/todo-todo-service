@@ -1,25 +1,33 @@
-import express, { Application } from "express";
-
+import express, { Application, Express } from "express";
 import ExceptionHandler from "./middleware/handler";
 
-class Express {
-  public express: express.Application;
+export interface IMiddleware {
+  add(app: Express): void;
+}
 
-  constructor(config: any) {
-    this.express = express();
-    this.express.locals.controllers = {};
-    this.express.locals.config = config.load();
+class ExpressApp {
+  private _express = express();
+  private config: any;
+
+  constructor(config?: any) {
+    this.config = config;
   }
-  
-  start() {
-    const port = this.express.locals.config.port;
 
-    console.log(`registering the error handler...`);
-    this.express.use(ExceptionHandler.logError);
-    this.express.use(ExceptionHandler.generalError);
+  use(middleware: IMiddleware) {
+    middleware.add(this._express);
+  }
+
+  get express() {
+    return this._express;
+  }
+
+  start() {
+    const port = 3000;    
+    this._express.use(ExceptionHandler.logError);
+    this._express.use(ExceptionHandler.generalError);
     
     // Start the server on the specified port
-    return this.express.listen(port, () => {
+    return this._express.listen(port, () => {
       return console.log(`Server start at http://localhost:${port}`);
     }).on('error', (_error) => {
       return console.log('Error: ', _error.message);
@@ -27,4 +35,4 @@ class Express {
   }
 }
 
-export default Express;
+export default ExpressApp;

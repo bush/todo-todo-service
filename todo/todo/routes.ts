@@ -1,22 +1,25 @@
-import express, { Request, Response, NextFunction } from "express";
-import StorageProviderFactory from "./storage-factory";
-import TodosController from "./controller";
-import ExpressApp from "../../common/express/express";
+import express, { Express, Request, Response, NextFunction } from "express";
 
-import util from "util";
-import logger from "../../common/logging/logger";
+import { ITodosController } from "./interface";
+import { IMiddleware } from "../../common/express/express";
 
-class TodosRouter {
-  public static init(app: ExpressApp) {
-    const storageProvider = StorageProviderFactory.create("electrodb");
-    const todosController = new TodosController(storageProvider);
-    const todosRouter = express.Router();
 
-    todosRouter.post(
+class TodosRouter implements IMiddleware {
+  
+  todoController: ITodosController;
+  todoRouter = express.Router();
+
+  constructor(todoController: ITodosController) {
+    this.todoController = todoController;
+  }
+
+  public add(app: Express) {
+
+    this.todoRouter.post(
       "/todos",
       async (req: Request, res: Response, next: NextFunction) => {   
           try {
-            await todosController.create(req.body);
+            await this.todoController.create(req.body);
             res.send({ status: "success" }); 
           } catch (err) {
             next(err);
@@ -24,7 +27,7 @@ class TodosRouter {
       }
     );
 
-    app.express.use("/api/v1", todosRouter);
+    app.use("/api/v1", this.todoRouter);
   }
 }
 

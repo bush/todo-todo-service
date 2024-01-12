@@ -1,17 +1,26 @@
 import logger from "../../logging/logger";
-import express from 'express';
+import express, { Express, Application } from 'express';
 import ExpressApp from "../express";
 
-class Http {
-  public static init(expressApp: ExpressApp): void {
-    logger.info(`Booting HTTP middleware`);
-    const app = expressApp.express;
+export type HttpConfig = {
+  maxUploadLimit: number,
+  maxParameterLimit: number
+} 
 
-    app.use(express.json({ limit: app.locals.config.maxUploadLimit }));
+import { IMiddleware } from "../express";
 
+class Http implements IMiddleware {
+  config: HttpConfig
+
+  constructor(config: HttpConfig) {
+    this.config = config;
+  }
+
+  public add(app: Express): void {
+    app.use(express.json({ limit: this.config.maxUploadLimit }));
     app.use(express.urlencoded({
-			limit: app.locals.config.maxUploadLimit,
-			parameterLimit: app.locals.config.maxParameterLimit,
+			limit: this.config.maxUploadLimit,
+			parameterLimit: this.config.maxParameterLimit,
 			extended: false
 		}));
 

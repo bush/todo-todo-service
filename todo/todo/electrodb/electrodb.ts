@@ -1,9 +1,10 @@
 // External libraries
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { ITodoRepo } from "../interface";
 
 // Local libraries
 import { Entity  } from "electrodb";
-import { TodoProviderCreateOptions, TodoStorageProvider } from "../storage-factory";
+import { TodoItem } from "../interface";
 
 const Todo = new Entity(
   {
@@ -51,14 +52,14 @@ const Todo = new Entity(
   }
 );
 
-class ElectroDBTodoStorage implements TodoStorageProvider {
+class ElectroDBTodoStorage implements ITodoRepo {
   constructor(client: DynamoDBClient, tableName: string) {
     Todo.setTableName(tableName);
     Todo.setClient(client);
   }
 
-  async create(options: TodoProviderCreateOptions) {
-    const { note, id } = options;
+  async create(todo: TodoItem): Promise<void> {
+    const { note, id } = todo;
     await Todo.create({ note: note, id }).go();
   }
 }

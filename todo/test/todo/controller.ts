@@ -1,5 +1,5 @@
 import { describe } from "mocha";
-import StorageProviderFactory from "../../todo/storage-factory";
+import StorageProviderFactory from "../../todo/repo-factory";
 import Todo from "../../todo/controller";
 
 let assert = require("assert");

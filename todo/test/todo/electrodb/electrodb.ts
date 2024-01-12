@@ -1,6 +1,6 @@
 import { Entity } from "electrodb";
 import DatabaseFactory from "../../../../common/database/database-factory";
-import StorageProviderFactory from "../../../todo/storage-factory";
+import StorageProviderFactory from "../../../todo/repo-factory";
 
 
 describe("Todo Access Patterns with ElectroDB", () => {

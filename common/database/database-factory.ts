@@ -1,14 +1,9 @@
-import { MongoClient, MongoClientOptions } from "mongodb";
+import { MongoClient } from "mongodb";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { IDatabaseFactory, NimkeeDBClient, NimkeeDBOptions } from "./interface";
 
-export interface NimkeeDBOptions {
-  [key: string]: any;
-}
-
-export type NimkeeDBClient = MongoClient | DynamoDBClient;
-
-class Database {
-  static create(
+class DatabaseFactory implements IDatabaseFactory {
+  create(
     strategy: string,
     url: string,
     options?: NimkeeDBOptions
@@ -24,4 +19,4 @@ class Database {
   }
 }
 
-export default Database;
+export default DatabaseFactory;

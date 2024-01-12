@@ -3,35 +3,27 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 // Local Libraries
 import ElectroDBTodoStorage from "./electrodb/electrodb";
-import DatabaseFactory, {
-} from "../../common/database/database-factory";
+import { IDatabaseFactory } from "../../common/database/interface";
+import { ITodoRepo } from "./interface";
 
-type TodoItem = {
-  id: string;
-  note: string;
-};
+class TodoRepoFactory {
+  private dbFactory: IDatabaseFactory;
 
-export type TodoProviderCreateOptions = {
-  id: string;
-  note: string;
-};
-
-export interface TodoStorageProvider {
-  create(options: TodoProviderCreateOptions): Promise<void>;
-}
-
-class StorageProviderFactory {
-  static create(strategy: string): TodoStorageProvider {
-    let client = DatabaseFactory.create("dynamodb", "dynamodb", {
+  constructor(dbFactory: IDatabaseFactory) {
+    this.dbFactory = dbFactory;
+  }
+  
+  create(strategy: string): ITodoRepo {
+    let client = this.dbFactory.create("dynamodb", "dynamodb", {
       region: "us-east-1",
     });
 
-    let result: TodoStorageProvider;
+    let result: ITodoRepo;
 
     switch (strategy) {
       case "dynamodb":
       case "electrodb":
-        client = DatabaseFactory.create("dynamodb", "dynamodb", {
+        client = this.dbFactory.create("dynamodb", "dynamodb", {
           region: "us-east-1",
         });
       case "electrodb":
@@ -51,4 +43,4 @@ class StorageProviderFactory {
   }
 }
 
-export default StorageProviderFactory;
+export default TodoRepoFactory;
