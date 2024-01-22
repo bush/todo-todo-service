@@ -1,6 +1,6 @@
 class Container {
   services: any;
-  [key: string]: any;
+  //[key: string]: any;
 
   constructor() {
     this.services = {};

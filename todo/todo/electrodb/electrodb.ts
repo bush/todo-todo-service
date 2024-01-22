@@ -1,9 +1,9 @@
 // External libraries
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+//import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { ITodoRepo } from "../interface";
 
 // Local libraries
-import { Entity  } from "electrodb";
+import { DocumentClient, Entity  } from "electrodb";
 import { TodoItem } from "../interface";
 
 const Todo = new Entity(
@@ -53,9 +53,9 @@ const Todo = new Entity(
 );
 
 class ElectroDBTodoStorage implements ITodoRepo {
-  constructor(client: DynamoDBClient, tableName: string) {
+  constructor(tableName: string, client?: DocumentClient) {
     Todo.setTableName(tableName);
-    Todo.setClient(client);
+    if(client) { Todo.setClient(client) };
   }
 
   async create(todo: TodoItem): Promise<void> {

@@ -1,12 +1,37 @@
 import { MongoClient } from "mongodb";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DocumentClient } from "electrodb";
 
-export interface NimkeeDBOptions {
-  [key: string]: any;
+export type DynamoDBOptions = {
+
 }
 
-export type NimkeeDBClient = MongoClient | DynamoDBClient;
+export type MongoDBOptions = {
+  url: string
+}
 
-export interface IDatabaseFactory {
-  create(strategy: string, url: string, options?: any): any;
+export type NimkeeDBOptions = DynamoDBOptions | MongoDBOptions;
+
+export type NimkeeDBStrategy = {
+  db: string,
+  options?: NimkeeDBOptions
+}
+
+export enum NimkeeDBStorageMapper {
+  DYNAMODB,
+  ELECTRODB,
+  MONGODB,
+  MONGOOSE
+}
+
+export type ElectroDBMapperConfig = {
+  tableName: string;
+}
+
+export type NimkeeDBMapperConfig = ElectroDBMapperConfig;
+export type NimkeeDBClient = DocumentClient // | Whatever mongoose uses
+
+export type NimkeeDBMapperStrategy = {
+  storageMapper: NimkeeDBStorageMapper;
+  config: NimkeeDBMapperConfig; 
+  client?: NimkeeDBClient;
 }

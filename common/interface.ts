@@ -1,4 +1,4 @@
-export interface INimkeeAppServer {
-  start(): void;
-  stop(): void;
+export interface INimkeeApp {
+  start() : void;
+  stop() : void;
 }

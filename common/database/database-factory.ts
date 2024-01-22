@@ -1,18 +1,16 @@
 import { MongoClient } from "mongodb";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { IDatabaseFactory, NimkeeDBClient, NimkeeDBOptions } from "./interface";
+import { NimkeeDBStrategy, MongoDBOptions } from "./interface";
 
-class DatabaseFactory implements IDatabaseFactory {
-  create(
-    strategy: string,
-    url: string,
-    options?: NimkeeDBOptions
-  ): NimkeeDBClient {
-    switch (strategy) {
+
+class DatabaseFactory {
+  static create(strategy: NimkeeDBStrategy) {
+    switch (strategy.db) {
       case "dynamodb":
         return new DynamoDBClient({});
       case "mongo":
-        return new MongoClient(url, options);
+        const options = strategy.options as MongoDBOptions;
+        return new MongoClient(options.url);
       default:
         return new DynamoDBClient({});
     }

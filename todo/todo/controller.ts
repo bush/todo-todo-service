@@ -1,6 +1,6 @@
-import { ITodosController, ITodoRepo, TodoItem } from "./interface";
+import { ITodoController, ITodoRepo, TodoItem } from "./interface";
 
-class TodoController implements ITodosController {
+class TodoController implements ITodoController {
   private todoRepo: ITodoRepo;
 
   constructor(todoRepo: ITodoRepo) {

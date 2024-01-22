@@ -1,44 +1,24 @@
-// External Libraries
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-
-// Local Libraries
 import ElectroDBTodoStorage from "./electrodb/electrodb";
-import { IDatabaseFactory } from "../../common/database/interface";
 import { ITodoRepo } from "./interface";
+import {
+  NimkeeDBStorageMapper,
+  NimkeeDBMapperStrategy,
+  NimkeeDBMapperConfig,
+} from "../../common/database/interface";
 
 class TodoRepoFactory {
-  private dbFactory: IDatabaseFactory;
-
-  constructor(dbFactory: IDatabaseFactory) {
-    this.dbFactory = dbFactory;
-  }
-  
-  create(strategy: string): ITodoRepo {
-    let client = this.dbFactory.create("dynamodb", "dynamodb", {
-      region: "us-east-1",
-    });
-
+  static create(strategy: NimkeeDBMapperStrategy): ITodoRepo {
     let result: ITodoRepo;
 
-    switch (strategy) {
-      case "dynamodb":
-      case "electrodb":
-        client = this.dbFactory.create("dynamodb", "dynamodb", {
-          region: "us-east-1",
-        });
-      case "electrodb":
-        result = new ElectroDBTodoStorage(
-          client as unknown as DynamoDBClient,
-          "todo5"
-        );
+    switch (strategy.storageMapper) {
+      case NimkeeDBStorageMapper.ELECTRODB:
+        const config = strategy.config as NimkeeDBMapperConfig;
+        result = new ElectroDBTodoStorage(config.tableName, strategy.client);
         break;
       default:
-        result = new ElectroDBTodoStorage(
-          client as unknown as DynamoDBClient,
-          "todo5"
-        );
+        throw new Error("Invalid database strategy");
     }
-    
+
     return result;
   }
 }

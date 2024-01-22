@@ -1,19 +1,18 @@
 import express, { Express, Request, Response, NextFunction } from "express";
 
-import { ITodosController } from "./interface";
-import { IMiddleware } from "../../common/express/express";
+import { ITodoController } from "./interface";
 
-
-class TodosRouter implements IMiddleware {
-  
-  todoController: ITodosController;
+class TodosRouter {
+  app: Express;
+  todoController: ITodoController;
   todoRouter = express.Router();
 
-  constructor(todoController: ITodosController) {
+  constructor(app: Express, todoController: ITodoController) {
+    this.app = app;
     this.todoController = todoController;
   }
 
-  public add(app: Express) {
+  public init() {
 
     this.todoRouter.post(
       "/todos",
@@ -27,7 +26,7 @@ class TodosRouter implements IMiddleware {
       }
     );
 
-    app.use("/api/v1", this.todoRouter);
+    this.app.use("/api/v1", this.todoRouter);
   }
 }
 

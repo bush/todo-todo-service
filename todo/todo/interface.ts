@@ -1,10 +1,13 @@
+import { MongoClient } from "mongodb";
+import { DocumentClient } from "electrodb";
+
 export type TodoRepoOptions = {
   tbd: string;
 };
 
 export type TodoItem = { id: string; note: string };
 
-export interface ITodosController {
+export interface ITodoController {
   create(todo: TodoItem): Promise<void>;
 }
 
