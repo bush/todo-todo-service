@@ -22,6 +22,7 @@ const envVarsSchema = Joi.object({
       http: Joi.object({
         urlencoded: Joi.object({
           parameterLimit: Joi.number().default(20),
+          extended: Joi.boolean().default(true),
         }),
         json: Joi.object({
           limit: Joi.alternatives(

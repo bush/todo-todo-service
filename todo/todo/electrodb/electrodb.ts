@@ -53,6 +53,7 @@ const Todo = new Entity(
 );
 
 class ElectroDBTodoStorage implements ITodoRepo {
+
   constructor(tableName: string, client?: DocumentClient) {
     Todo.setTableName(tableName);
     if(client) { Todo.setClient(client) };

@@ -5,6 +5,7 @@ app:
     http:
       urlencoded:
         parameterLimit: 10
+        extended: true
       json:
         limit: 1mb 
   todo:
@@ -13,8 +14,7 @@ app:
       mapper:
         type: electrodb
         config:
-          table: todos5
+          table: todos
       database:
         type: dynamodb
-        config:
-          region: us-west-2
+        config: {}
