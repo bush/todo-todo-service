@@ -1,0 +1,20 @@
+app:
+  env: development
+  port: 3000   
+  middleware:
+    http:
+      urlencoded:
+        parameterLimit: 10
+      json:
+        limit: 1mb 
+  todo:
+    route: /todos
+    storage:
+      mapper:
+        type: electrodb
+        config:
+          table: todos5
+      database:
+        type: dynamodb
+        config:
+          region: us-west-2

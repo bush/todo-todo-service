@@ -2,18 +2,27 @@ import ElectroDBTodoStorage from "./electrodb/electrodb";
 import { ITodoRepo } from "./interface";
 import {
   NimkeeDBStorageMapper,
-  NimkeeDBMapperStrategy,
   NimkeeDBMapperConfig,
-} from "../../common/database/interface";
+  ElectroDBMapperConfig,
+} from "../todo/interface";
+import { NimkeeDBClient } from "../../common/interface";
+import { DocumentClient } from "electrodb";
 
 class TodoRepoFactory {
-  static create(strategy: NimkeeDBMapperStrategy): ITodoRepo {
+  static create(
+    mapperType: NimkeeDBStorageMapper,
+    config: NimkeeDBMapperConfig,
+    client: NimkeeDBClient
+  ): ITodoRepo {
     let result: ITodoRepo;
 
-    switch (strategy.storageMapper) {
+    switch (mapperType) {
       case NimkeeDBStorageMapper.ELECTRODB:
-        const config = strategy.config as NimkeeDBMapperConfig;
-        result = new ElectroDBTodoStorage(config.tableName, strategy.client);
+        const electorConfig = config as ElectroDBMapperConfig;
+        result = new ElectroDBTodoStorage(
+          config.table,
+          client as DocumentClient
+        );
         break;
       default:
         throw new Error("Invalid database strategy");

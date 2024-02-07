@@ -1,4 +1,2 @@
-export interface INimkeeApp {
-  start() : void;
-  stop() : void;
-}
+export * from './database/interface';
+export * from './express/interface';

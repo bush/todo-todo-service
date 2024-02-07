@@ -1,37 +1,26 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, MongoClientOptions } from "mongodb";
 import { DocumentClient } from "electrodb";
 
-export type DynamoDBOptions = {
+export enum NimkeeDBType {
+  DYNAMODB='dynamodb',
+  MONGODB='mongodb'
+}
+
+export type DynamoDBConfig = {
 
 }
 
-export type MongoDBOptions = {
-  url: string
+export type MongoDBConfig = {
+  url: string,
+  options?: MongoClientOptions
 }
 
-export type NimkeeDBOptions = DynamoDBOptions | MongoDBOptions;
+export type NimkeeDBConfig = DynamoDBConfig | MongoDBConfig;
 
 export type NimkeeDBStrategy = {
-  db: string,
-  options?: NimkeeDBOptions
+  client: string,
+  config?: NimkeeDBConfig
 }
 
-export enum NimkeeDBStorageMapper {
-  DYNAMODB,
-  ELECTRODB,
-  MONGODB,
-  MONGOOSE
-}
-
-export type ElectroDBMapperConfig = {
-  tableName: string;
-}
-
-export type NimkeeDBMapperConfig = ElectroDBMapperConfig;
 export type NimkeeDBClient = DocumentClient // | Whatever mongoose uses
 
-export type NimkeeDBMapperStrategy = {
-  storageMapper: NimkeeDBStorageMapper;
-  config: NimkeeDBMapperConfig; 
-  client?: NimkeeDBClient;
-}
