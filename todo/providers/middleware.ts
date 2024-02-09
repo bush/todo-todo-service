@@ -1,15 +1,11 @@
+import { AppContainer } from "./interface";
+import { Http as HttpMiddleware } from "../../common/interface";
 import Container from "../../common/ioc/container";
-import HttpMiddleware from "../../common/express/middleware/http";
-import { IExpressProvider } from "./express";
-import { IConfigProvider } from "./config";
 
-export interface IMiddlewareProvider extends Container {
-  HttpMiddleware: HttpMiddleware;
-}
 
 export default function (c: Container) {
-  const express = (c as IExpressProvider).Express;
-  const http = (c as IConfigProvider).config.app.middleware.http;
+  const express = (c as AppContainer).Express;
+  const http = (c as AppContainer).config.app.middleware.http;
 
   c.service(    
     "HttpMiddleware",

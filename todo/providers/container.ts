@@ -5,6 +5,7 @@ import middleware from "./middleware";
 import databaseProvider from "./database";
 import todoProvider from "./todo";
 import appProvider from "./app";
+import { AppContainer } from "./interface";
 
 export default function () {
   let container = new Container();
@@ -14,5 +15,5 @@ export default function () {
   databaseProvider(container);
   todoProvider(container);
   appProvider(container);
-  return container;
+  return container as AppContainer;
 }
