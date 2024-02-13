@@ -1,6 +1,7 @@
 app:
-  env: development
-  port: 4000   
+  options:
+    env: development
+    port: 3000   
   middleware:
     http:
       urlencoded:

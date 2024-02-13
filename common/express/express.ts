@@ -1,31 +1,40 @@
 import { Server } from "http";
-import { Express } from "express";
-import ExceptionHandler from "./middleware/handler";
+import { Application } from "express";
+import { INimkeeApp, INimkeeMiddleware, NimkeeAppConfig } from "./interface";
 
-class NimkeeExpressApp {
-  private app: Express;
+export class NimkeeApp implements INimkeeApp {
+  private app: Application;
+  private config: NimkeeAppConfig;
   private server: Server;
+  private middleware: INimkeeMiddleware[];
 
-  constructor(app: Express) {
+  constructor(
+    app: Application,
+    middleware: INimkeeMiddleware[] = [],
+    config: NimkeeAppConfig
+  ) {
     this.app = app;
+    this.middleware = middleware;
+    this.config = config;
   }
 
   start() {
-    const port = 3000;    
-    this.app.use(ExceptionHandler.logError);
-    this.app.use(ExceptionHandler.generalError);
-    
-    // Start the server on the specified port
-    return this.server = this.app.listen(port, () => {
-      return console.log(`Server start at http://localhost:${port}`);
-    }).on('error', (error) => {
-      return console.log('Error: ', error.message);
-    });
+
+    for (const m of this.middleware) {
+      m.init();
+    }
+
+    const port = this.config.port;
+    return (this.server = this.app
+      .listen(port, () => {
+        return console.log(`Server start at http://localhost:${port}`);
+      })
+      .on("error", (error) => {
+        return console.log("Error: ", error.message);
+      }));
   }
 
   stop() {
     this.server.close();
   }
 }
-
-export default NimkeeExpressApp;

@@ -9,7 +9,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "dev": "nodemon dist/todo/index.js",
-    "start": "node dist/todo/index.js"
+    "start": "node dist/todo/index.js",
+    "start-debug": "ts-node index.ts"
   },
   "keywords": [],
   "author": "",

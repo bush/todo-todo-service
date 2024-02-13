@@ -1,5 +1,6 @@
 import { MongoClient } from "mongodb";
 import { DocumentClient } from "electrodb";
+import { Request, Response, NextFunction } from "express";
 
 export enum NimkeeDBStorageMapper {
   DYNAMODB='dynamodb',
@@ -25,4 +26,8 @@ export interface ITodoController {
 
 export interface ITodoRepo {
   create(todo: TodoItem): Promise<void>;
+}
+
+export interface ITodoHandlers {
+  post(): (req: Request, res: Response, next: NextFunction) => Promise<void>
 }

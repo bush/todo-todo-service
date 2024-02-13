@@ -1,33 +1,38 @@
-import express, { Express, Request, Response, NextFunction } from "express";
+import {
+  Application,
+  Router,
+  Request,
+  Response,
+  NextFunction,
+} from "express";
 
 import { ITodoController } from "./interface";
+import { INimkeeMiddleware } from "../../common/interface";
 
-class TodosRouter {
-  app: Express;
-  todoController: ITodoController;
-  todoRouter = express.Router();
+class TodoRouter implements INimkeeMiddleware {
+  private app: Application;
+  private router: Router;
+  private controller: ITodoController;
 
-  constructor(app: Express, todoController: ITodoController) {
+  constructor(app: Application, router: Router, controller: ITodoController) {
     this.app = app;
-    this.todoController = todoController;
+    this.router = router;
+    this.controller = controller;
+  }
+
+  private async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      await this.controller.create(req.body);
+      res.send({ status: "success" });
+    } catch (err) {
+      next(err);
+    }
   }
 
   public init() {
-
-    this.todoRouter.post(
-      "/todos",
-      async (req: Request, res: Response, next: NextFunction) => {   
-          try {
-            await this.todoController.create(req.body);
-            res.send({ status: "success" }); 
-          } catch (err) {
-            next(err);
-          }
-      }
-    );
-
-    this.app.use("/api/v1", this.todoRouter);
+    this.router.post("/todos", this.create.bind(this));
+    this.app.use("/api/v1", this.router);
   }
 }
 
-export default TodosRouter;
+export default TodoRouter;

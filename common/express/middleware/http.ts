@@ -1,17 +1,18 @@
-import express, { Express } from "express";
-import { OptionsUrlencoded, OptionsJson } from "body-parser";
+import express, { Application } from "express";
+import { OptionsUrlencoded, OptionsJson } from "body-parser"
+import { INimkeeMiddleware } from "../interface";
 
 export type HttpConfig = {
   urlencoded?: OptionsUrlencoded;
   json?: OptionsJson;
 };
 
-class Http {
-  private app: Express;
+export class Http implements INimkeeMiddleware {
+  private app: Application;
   private config: HttpConfig;
 
   constructor(
-    app: Express,
+    app: Application,
     config: HttpConfig
   ) {
     this.app = app;
@@ -24,5 +25,3 @@ class Http {
     this.app.disable("x-powered-by");
   }
 }
-
-export default Http;

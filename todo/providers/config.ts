@@ -3,7 +3,7 @@ import Joi from "joi";
 import fs from "fs";
 import { parse } from "yaml";
 import Container from "../../common/ioc/container";
-import { NimkeeDBConfig, NimkeeDBType } from "../../common/interface";
+import { NimkeeAppConfig, NimkeeDBConfig, NimkeeDBType } from "../../common/interface";
 import { NimkeeDBStorageMapper } from "../todo/interface";
 import { HttpConfig } from "../../common/interface";
 
@@ -16,8 +16,10 @@ const config = parse(configFile);
 
 const envVarsSchema = Joi.object({
   app: Joi.object({
-    env: Joi.string().valid("production", "development", "test").required(),
-    port: Joi.number().default(3000),
+    options: Joi.object({
+      env: Joi.string().valid("production", "development", "test").required(),
+      port: Joi.number().default(3000)
+    }),
     middleware: Joi.object({
       http: Joi.object({
         urlencoded: Joi.object({
@@ -94,8 +96,7 @@ if (error) {
 
 export type AppConfig = {
   app: {
-    env: string;
-    port: number;
+    options: NimkeeAppConfig;
     middleware: {
       http: HttpConfig;
     };

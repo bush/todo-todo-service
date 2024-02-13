@@ -18,22 +18,32 @@
 //-----------------------------------------------------------------------
 
 import HttpStatus from "http-status-codes";
-import { Request, Response, NextFunction } from "express";
-import ExpressApp from "../express";
-
+import { Application, Request, Response, NextFunction } from "express";
+import { INimkeeMiddleware } from "../interface";
 
 import logger from "../../logging/logger";
 
-class ErrorHandler {
+export class NimkeeError implements INimkeeMiddleware {
+
+  private app: Application;
+
+  constructor(
+    app: Application
+  ) {
+    this.app = app;
+  }
   
-  static logError(err: any, req: Request, res: Response, next: NextFunction) {
+  logError(err: any, req: Request, res: Response, next: NextFunction) {
     logger.error(err.stack);
     return next(err);
   }
 
-  static generalError(err: any, req: Request, res: Response, next: NextFunction) {
+  generalError(err: any, req: Request, res: Response, next: NextFunction) {
     return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: 'Whoops! Something went wrong.'});
   }
-}
 
-export default ErrorHandler;
+  public init(): void {
+    this.app.use(this.logError.bind(this));
+    this.app.use(this.generalError.bind(this));
+  }
+};
