@@ -5,8 +5,12 @@ jobs:
   login-to-amazon-ecr:
     runs-on: ubuntu-latest
     steps:
-      - name: Login to Amazon ECR
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/my-github-actions-role
+          aws-region: us-east-1
+      - name: Login to Amazon ECR Private
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-        with:
-          aws-region: us-east-1
+  
