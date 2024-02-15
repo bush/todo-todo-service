@@ -1,5 +1,5 @@
 import Container from "../../common/ioc/container";
-import DatabaseFactory from "../../common/database/database-factory";
+import DatabaseFactory from "../../common/database/db-factory";
 import { IConfigProvider } from "./config";
 import { NimkeeDBClient } from "../../common/interface";
 import { AppContainer } from "./interface";

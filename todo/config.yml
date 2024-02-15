@@ -1,7 +1,7 @@
 app:
   options:
     env: development
-    port: 3000   
+    port: 8080   
   middleware:
     http:
       urlencoded:
