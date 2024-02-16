@@ -7,17 +7,6 @@ permissions:
 env:
   AWS_REGION : us-east-1
 jobs:
-  login-to-ecr:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git clone the repository
-        uses: actions/checkout@v4
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          role-to-assume: arn:aws:iam::330481019669:role/github-actions
-          role-session-name: samplerolesession
-          aws-region: us-east-1
   test-job:
     runs-on: ubuntu-latest
     container: 
