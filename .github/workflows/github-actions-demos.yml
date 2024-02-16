@@ -2,18 +2,19 @@ name: SAM Build and Deploy
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 permissions:
-  id-token: write
-  contents: read
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
 env:
   AWS_REGION : us-east-1
 jobs:
   login-to-ecr:
     runs-on: ubuntu-latest
     steps:
-      - name: Configure AWS credentials from Test account
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
         with:
+          role-to-assume: arn:aws:iam::330481019669:role/GithubAction-AssumeRoleWithWebIdentity
+          role-session-name: samplerolesession
           aws-region: us-east-1
-          role-to-assume: arn:aws:iam::330481019669:role/GitHubAction-AssumeRoleWithAction
-          role-session-name: GitHubActions
-      - run: aws sts get-caller-identity
