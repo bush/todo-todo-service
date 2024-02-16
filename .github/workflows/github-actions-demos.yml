@@ -1,6 +1,9 @@
 name: SAM Build and Deploy
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
+permissions:
+  id-token: write
+  contents: read
 env:
   AWS_REGION : us-east-1
 jobs:
