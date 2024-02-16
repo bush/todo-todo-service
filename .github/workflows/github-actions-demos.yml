@@ -18,3 +18,11 @@ jobs:
           role-to-assume: arn:aws:iam::330481019669:role/github-actions
           role-session-name: samplerolesession
           aws-region: us-east-1
+  test-job:
+    runs-on: ubuntu-latest
+    container: 
+      image: public.ecr.aws/sam/build-nodejs18.x:1.109.0-20240206201153
+    steps:
+      - name: Build and Deploy
+        run: echo "Hello, world!"
+     
