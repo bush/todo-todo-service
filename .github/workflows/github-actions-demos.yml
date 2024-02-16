@@ -24,5 +24,5 @@ jobs:
       image: public.ecr.aws/sam/build-nodejs18.x:1.109.0-20240206201153
     steps:
       - name: Build and Deploy
-        run: echo "Hello, world!"
+        run: sam -h
      
