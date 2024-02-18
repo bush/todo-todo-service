@@ -18,9 +18,9 @@ jobs:
       # sam build 
       - run: |
           cd todo
-          sam build --use-container
+          sam build --use-container --container-env-var AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} --container-env-var AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 # Run Unit tests- Specify unit tests here 
 
 # sam deploy
-      - run: sam deploy --container-env-var AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} --container-env-var AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - run: sam deploy
