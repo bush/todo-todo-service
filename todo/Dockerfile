@@ -14,7 +14,6 @@ RUN mkdir -p /var/task/todo && mkdir ~/.aws
 WORKDIR /var/task/todo
 COPY ./todo/package*.json ./
 COPY ./todo/config.yml ./
-COPY ./todo/credentials ~/.aws
 RUN npm install
 
 ## We just need the build to execute the command
