@@ -25,4 +25,4 @@ jobs:
 # sam deploy
       - run: |
           cd todo
-          sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-hello-world --s3-bucket test-github-actions-bucket --capabilities CAPABILITY_IAM --region us-east-1
+          sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-hello-world --capabilities CAPABILITY_IAM --region us-east-1
