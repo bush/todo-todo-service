@@ -24,4 +24,5 @@ jobs:
 
 # sam deploy
       - run: |
+          cd todo
           sam deploy
