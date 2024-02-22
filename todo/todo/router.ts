@@ -31,7 +31,7 @@ class TodoRouter implements INimkeeMiddleware {
 
   public init() {
     this.router.post("/todos", this.create.bind(this));
-    this.app.use("/api/v1", this.router);
+    this.app.use("prod/api/v1", this.router);
   }
 }
 
