@@ -27,7 +27,7 @@ export class NimkeeApp implements INimkeeApp {
     const port = this.config.port;
     return (this.server = this.app
       .listen(port, () => {
-        return console.log(`Nimkee server starting at http://localhost:${port}`);
+        return console.log(`Nimkee server receiving trafic at http://localhost:${port}`);
       })
       .on("error", (error) => {
         return console.log("Error: ", error.message);
