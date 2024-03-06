@@ -10,6 +10,10 @@ class TodoController implements ITodoController {
   public async create(todo: TodoItem): Promise<any> {
      return this.todoRepo.create(todo); 
   }
+
+  public async getAll(): Promise<TodoItem[]> {
+    return this.todoRepo.getAll();
+  }
 }
 
 export default TodoController;

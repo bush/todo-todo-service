@@ -63,6 +63,15 @@ class ElectroDBTodoStorage implements ITodoRepo {
     const { note, id } = todo;
     await Todo.create({ note: note, id }).go();
   }
+
+  async getAll(): Promise<TodoItem[]> {
+    const todos = await Todo.query.tasks({}).go();
+    const todoItems = todos.data.map((todo: any) => {
+      return { id: todo.id, note: todo.note };
+    });
+
+    return todoItems;
+  }
 }
 
 export default ElectroDBTodoStorage;

@@ -29,8 +29,18 @@ class TodoRouter implements INimkeeMiddleware {
     }
   }
 
+  private async getAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      const todos = await this.controller.getAll();
+      res.send(todos);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   public init() {
     this.router.post("/todos", this.create.bind(this));
+    this.router.get("/todos", this.getAll.bind(this));
     this.app.use("/api/v1", this.router);
   }
 }

@@ -22,10 +22,12 @@ export type TodoItem = { id: string; note: string };
 
 export interface ITodoController {
   create(todo: TodoItem): Promise<void>;
+  getAll(): Promise<TodoItem[]>;
 }
 
 export interface ITodoRepo {
   create(todo: TodoItem): Promise<void>;
+  getAll(): Promise<TodoItem[]>;
 }
 
 export interface ITodoHandlers {
