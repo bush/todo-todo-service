@@ -3,7 +3,13 @@ import Joi from "joi";
 import fs from "fs";
 import { parse } from "yaml";
 import Container from "../../common/ioc/container";
-import { NimkeeAppConfig, NimkeeDBConfig, NimkeeDBType } from "../../common/interface";
+import {
+  NimkeeAppConfig,
+  NimkeeApplicationMode,
+  NimkeeDBConfig,
+  NimkeeDBType,
+  NimkeeDeploymentEnv,
+} from "../../common/interface";
 import { NimkeeDBStorageMapper } from "../todo/interface";
 import { HttpConfig } from "../../common/interface";
 
@@ -17,8 +23,17 @@ const config = parse(configFile);
 const envVarsSchema = Joi.object({
   app: Joi.object({
     options: Joi.object({
-      env: Joi.string().valid("production", "development", "test").required(),
-      port: Joi.number().default(3000)
+      env: Joi.string()
+        .valid(
+          NimkeeDeploymentEnv.PRODUCTION,
+          NimkeeDeploymentEnv.DEVELOPMENT,
+          NimkeeDeploymentEnv.TEST
+        )
+        .required(),
+      mode: Joi.string()
+        .valid(NimkeeApplicationMode.SERVER, NimkeeApplicationMode.SERVERLESS)
+        .default(NimkeeApplicationMode.SERVER),
+      port: Joi.number().default(3000),
     }),
     middleware: Joi.object({
       http: Joi.object({
@@ -44,9 +59,10 @@ const envVarsSchema = Joi.object({
               NimkeeDBStorageMapper.ELECTRODB,
               NimkeeDBStorageMapper.MONGODB,
               NimkeeDBStorageMapper.MONGOOSE
-            ).required(),
-          config: Joi.object({  
-            table: Joi.string().required()
+            )
+            .required(),
+          config: Joi.object({
+            table: Joi.string().required(),
           }).required(),
         }).required(),
         database: Joi.object({
@@ -64,24 +80,26 @@ const envVarsSchema = Joi.object({
             .messages({
               "any.only": `The storage mapper type '${config.app.todo.storage.mapper.type}' does not support the database type '${config.app.todo.storage.database.type}'`,
             }),
-          config: Joi.alternatives().conditional("type", [
-            {
-              is: NimkeeDBType.DYNAMODB,
-              then: Joi.object({
-                region: Joi.string().valid("us-east-1", "us-west-2"),
-              }),
-            },
-            {
-              is: NimkeeDBType.MONGODB,
-              then: Joi.object({
-                url: Joi.string().required(),
-              }),
-            },
-          ]).required(),
+          config: Joi.alternatives()
+            .conditional("type", [
+              {
+                is: NimkeeDBType.DYNAMODB,
+                then: Joi.object({
+                  region: Joi.string().valid("us-east-1", "us-west-2"),
+                }),
+              },
+              {
+                is: NimkeeDBType.MONGODB,
+                then: Joi.object({
+                  url: Joi.string().required(),
+                }),
+              },
+            ])
+            .required(),
         }).required(),
       }).required(),
     }).required(),
-  }), 
+  }),
 })
   .required()
   .unknown();
@@ -115,12 +133,8 @@ export type AppConfig = {
         };
       };
     };
-    };
+  };
 };
-
-export interface IConfigProvider extends Container {
-  config: AppConfig;
-}
 
 export default function (c: Container) {
   c.service("config", (c) => config);

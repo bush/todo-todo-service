@@ -11,10 +11,15 @@
     "sourceMap": true
   },
   "exclude": [
-    "node_modules",
-    "test",
+    "node_modules/**/*",
+    ".serverless/**/*",
+    ".webpack/**/*",
+    "_warmup/**/*",
+    ".vscode/**/*",
+    "*.config.js",
+    "**/*.js"
   ],
   "include": [
-    "**/*.ts",
+    "./**/*.ts",
   ]
 }
