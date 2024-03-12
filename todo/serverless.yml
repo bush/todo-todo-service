@@ -5,18 +5,21 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs18.x
-  lambdaHashingVersion: '20201221'
+  lambdaHashingVersion: "20201221"
 
 functions:
   todo:
     handler: sls-index.handler
     events:
       - http: ANY /
-      - http: 'ANY /{proxy+}'
+      - http: "ANY /{proxy+}"
 
 plugins:
   - serverless-offline
   - serverless-webpack
+
+resources:
+  - ${file(./todo/cloud-formation/todo-table.yml),''}
 
 custom:
   webpack:
