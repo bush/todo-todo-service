@@ -1,7 +1,5 @@
-import path from "path";
+import config from "../config";
 import Joi from "joi";
-import fs from "fs";
-import { parse } from "yaml";
 import Container from "../../common/ioc/container";
 import {
   NimkeeAppConfig,
@@ -12,13 +10,6 @@ import {
 } from "../../common/interface";
 import { NimkeeDBStorageMapper } from "../todo/interface";
 import { HttpConfig } from "../../common/interface";
-
-const configFile = fs.readFileSync(
-  path.join(process.cwd(), "config.yml"),
-  "utf8"
-);
-
-const config = parse(configFile);
 
 const envVarsSchema = Joi.object({
   app: Joi.object({
@@ -62,7 +53,7 @@ const envVarsSchema = Joi.object({
             )
             .required(),
           config: Joi.object({
-            table: Joi.string().required(),
+            tableName: Joi.string().required(),
           }).required(),
         }).required(),
         database: Joi.object({
@@ -124,7 +115,7 @@ export type AppConfig = {
         mapper: {
           type: NimkeeDBStorageMapper;
           config: {
-            table: string;
+            tableName: string;
           };
         };
         database: {

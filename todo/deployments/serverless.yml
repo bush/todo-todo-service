@@ -1,29 +1,25 @@
 service: serverless-todo-app
 frameworkVersion: "3"
+
 custom:
+  stage: "${opt:stage, self:provider.stage}"
+  shopsTable: "${self:service}-shops-${self:custom.stage}"
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
+
 provider:
   name: aws
-  stage: "${opt:stage, ''}"
   runtime: nodejs18.x
   lambdaHashingVersion: "20201221"
-  environment:
-    STAGE: foo
-    TODO_TABLE_NAME: ${self:service}-todo-table-${self:provider.stage} 
-  iam:
-    role:
-      statements:
-        - ${file(./deployments/water/todo-table-permissions.yml)}
+
 functions:
   todo:
     handler: sls-index.handler
     events:
       - http: ANY /
-      - http: ANY /{proxy+}
+      - http: "ANY /{proxy+}"
+
 plugins:
   - serverless-offline
   - serverless-webpack
-resources:
-  - ${file(./deployments/water/todo-table.yml)}

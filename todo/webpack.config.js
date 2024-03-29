@@ -26,7 +26,7 @@ module.exports = {
     rules: [
       // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
       {
-        test: /\.(tsx?)$/,
+        test: /\.(ts|js)x?$/,
         loader: 'ts-loader',
         exclude: [
           [
@@ -34,25 +34,21 @@ module.exports = {
             path.resolve(__dirname, '.serverless'),
             path.resolve(__dirname, '.webpack'),
           ],
-        ],
-        options: {
-          transpileOnly: true,
-          experimentalWatchApi: true,
-        },
+        ]
       },
     ],
   },
   plugins: [
-    // new ForkTsCheckerWebpackPlugin({
+    //new ForkTsCheckerWebpackPlugin({
     //   eslint: true,
     //   eslintOptions: {
     //     cache: true
     //   }
     // })
-    new CopyPlugin({
-      patterns: [
-        { from: "config.yml", to: "config.yml" }
-      ],
-    })
+    //new CopyPlugin({
+    //  patterns: [
+    //    { from: "config.yml", to: "config.yml" }
+    //  ],
+    //})
   ],
 };

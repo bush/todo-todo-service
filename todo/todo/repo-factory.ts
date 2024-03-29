@@ -20,7 +20,7 @@ class TodoRepoFactory {
       case NimkeeDBStorageMapper.ELECTRODB:
         const electorConfig = config as ElectroDBMapperConfig;
         result = new ElectroDBTodoStorage(
-          electorConfig.table,
+          electorConfig.tableName,
           client as DocumentClient
         );
         break;

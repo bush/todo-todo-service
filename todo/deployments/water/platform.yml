@@ -1,0 +1,7 @@
+provider:
+  iam:
+    role:
+      statements:
+        - ${file(./deployments/water/todo-table-permissions.yml)}
+resources:
+  - ${file(./deployments/water/todo-table.yml)}

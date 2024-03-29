@@ -1,8 +1,8 @@
 Resources:
-  usersTable:
+  TodoTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: todos7
+      TableName: ${self:provider.environment.TODO_TABLE_NAME}
       AttributeDefinitions:
         - AttributeName: pk
           AttributeType: S

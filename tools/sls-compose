@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const { parse, stringify } = require('yaml');
+const lodash = require('lodash');
+
+const { Command } = require('commander');
+const program = new Command();
+
+program
+  .option('-y, --yml [yaml files...]', 'yml files to compose, specify at least 2 files.');
+
+program.parse();
+
+const ymls = program.opts().yml;
+if ( !ymls || ymls.length < 2 ) {
+  console.error('Please provide at least 2 yml files');
+  program.help();
+  process.exit(1);
+}
+
+const ymlObjects = ymls.map((yml) => {
+  const file = fs.readFileSync(yml, "utf8");
+  return parse(file);
+})
+
+const serverless = lodash.merge({}, ...ymlObjects);
+console.log(stringify(serverless,{number: 3}));

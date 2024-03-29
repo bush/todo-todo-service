@@ -1,0 +1,3 @@
+export STAGE=dev
+export NODE_ENV=development
+export TODO_TABLE_NAME=serverless-todo-app-todo-table-${STAGE}

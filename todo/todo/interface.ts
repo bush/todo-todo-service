@@ -10,7 +10,7 @@ export enum NimkeeDBStorageMapper {
 }
 
 export type ElectroDBMapperConfig = {
-  table: string;
+  tableName: string;
 }
 
 export type TodoRepoOptions = {
