@@ -22,6 +22,8 @@ const config = {
           type: "electrodb",
           config: {
             tableName: process.env.TODO_TABLE_NAME
+            pkName: process.env.PK_NAME
+            skName: process.env.SK_NAME
           }
         },
         database: {

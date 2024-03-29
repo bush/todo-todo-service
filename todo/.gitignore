@@ -5,3 +5,4 @@ credentials
 .env
 serverless.yml
 config.ts
+.webpack

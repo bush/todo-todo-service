@@ -1,4 +1,8 @@
 provider:
+  environment:
+    TODO_TABLE_NAME: ${self:service}-todo-table-${self:provider.stage}
+    TODO_PK_NAME: pk
+    TODO_SK_NAME: sk
   iam:
     role:
       statements:
