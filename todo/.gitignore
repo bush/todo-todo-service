@@ -4,3 +4,4 @@ dist/
 credentials
 .env
 serverless.yml
+config.ts
