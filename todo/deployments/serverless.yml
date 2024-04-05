@@ -2,8 +2,7 @@ service: serverless-todo-app
 frameworkVersion: "3"
 
 custom:
-  stage: "${opt:stage, self:provider.stage}"
-  shopsTable: "${self:service}-shops-${self:custom.stage}"
+  stage: ${opt:stage, self:provider.stage}
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
@@ -12,13 +11,15 @@ provider:
   name: aws
   runtime: nodejs18.x
   lambdaHashingVersion: "20201221"
+  stage: dev 
+
 
 functions:
   todo:
     handler: sls-index.handler
     events:
       - http: ANY /
-      - http: "ANY /{proxy+}"
+      - http: \"ANY /{proxy+}\"
 
 plugins:
   - serverless-offline

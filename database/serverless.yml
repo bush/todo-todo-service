@@ -1,0 +1,36 @@
+service: todo-storage
+
+plugins:
+  - serverless-dynamodb-local
+
+custom:
+  # Our stage is based on what is passed in when running serverless
+  # commands. Or fallsback to what we have set in the provider section.
+  stage: ${opt:stage, self:provider.stage}
+  profile:
+    dev: default 
+    prod: todo-prod
+  todoTableName: ${self:service}-${self:custom.stage}
+  todoPKName: pk
+  todoSKName: sk
+  # Set our DynamoDB throughput for prod and all other non-prod stages.
+  tableThroughputs:
+    prod: 5
+    default: 1
+  tableThroughput: ${self:custom.tableThroughputs.${self:custom.stage}, self:custom.tableThroughputs.default}
+  tableDeletionPolicy:
+    dev: Delete
+    sandbox: Delete
+    prod: Retain
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: us-east-1
+  profile: ${self:custom.profile.${self:custom.stage}}
+
+# Create our resources with separate CloudFormation templates
+resources:
+  # DynamoDB Tables
+  - ${file(todo-table.yml)}

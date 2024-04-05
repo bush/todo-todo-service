@@ -54,6 +54,8 @@ const envVarsSchema = Joi.object({
             .required(),
           config: Joi.object({
             tableName: Joi.string().required(),
+            pkName: Joi.string().required(),
+            skName: Joi.string().required(),
           }).required(),
         }).required(),
         database: Joi.object({
@@ -95,6 +97,9 @@ const envVarsSchema = Joi.object({
   .required()
   .unknown();
 
+import util from "util";
+util.inspect(config, {depth:10});
+
 const { value: envVars, error } = envVarsSchema
   .prefs({ errors: { label: "path" } })
   .validate(config);
@@ -116,6 +121,8 @@ export type AppConfig = {
           type: NimkeeDBStorageMapper;
           config: {
             tableName: string;
+            pkName: string;
+            skName: string;
           };
         };
         database: {

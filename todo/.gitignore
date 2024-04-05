@@ -6,3 +6,4 @@ credentials
 serverless.yml
 config.ts
 .webpack
+.serverless

@@ -1,0 +1,38 @@
+Resources:
+  Todos:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "${self:custom.todoTableName}"
+      AttributeDefinitions:
+        - AttributeName: "${self:custom.todoPKName}" 
+          AttributeType: S
+        - AttributeName: "${self:custom.todoSKName}"
+          AttributeType: S
+      KeySchema:
+        - AttributeName: "${self:custom.todoPKName}"
+          KeyType: HASH
+        - AttributeName: "${self:custom.todoSKName}"
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+
+Outputs:
+  TodoArn:
+    Value: !GetAtt Todos.Arn
+    Export:
+      Name: Todos-Arn
+  TodoName:
+    Value:
+      Ref: Todos
+    Export:
+      Name: Todos-Name
+  TodoPKName:
+    Value: ${self:custom.todoPKName}
+    Export:
+      Name: Todos-PK-Name
+  TodoSKName:
+    Value: ${self:custom.todoSKName}
+    Export:
+      Name: Todos-SK-Name

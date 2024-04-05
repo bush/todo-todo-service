@@ -7,4 +7,4 @@ Action:
   - dynamodb:UpdateItem
   - dynamodb:DeleteItem
 Resource:
-  - Fn::GetAtt: [ TodoTable, Arn ]
+  - 'Fn::ImportValue': Todos-Arn

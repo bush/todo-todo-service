@@ -1,11 +1,9 @@
 provider:
   environment:
-    TODO_TABLE_NAME: ${self:service}-todo-table-${self:provider.stage}
-    TODO_PK_NAME: pk
-    TODO_SK_NAME: sk
+    TODO_TABLE_NAME: ${cf:todo-storage-${self:provider.stage}.TodoName}
+    TODO_TABLE_PK_NAME: ${cf:todo-storage-${self:provider.stage}.TodoPKName}
+    TODO_TABLE_SK_NAME: ${cf:todo-storage-${self:provider.stage}.TodoSKName}
   iam:
     role:
       statements:
         - ${file(./deployments/water/todo-table-permissions.yml)}
-resources:
-  - ${file(./deployments/water/todo-table.yml)}

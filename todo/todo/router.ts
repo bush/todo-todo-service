@@ -9,6 +9,8 @@ import {
 import { ITodoController } from "./interface";
 import { INimkeeMiddleware } from "../../common/interface";
 
+import util from 'util';
+
 class TodoRouter implements INimkeeMiddleware {
   private app: Application;
   private router: Router;
@@ -20,8 +22,20 @@ class TodoRouter implements INimkeeMiddleware {
     this.controller = controller;
   }
 
+  private async test(req: Request, res: Response, next: NextFunction) {
+    try {
+      console.log('TEST1');
+      console.log(util.inspect(process.env,{depth:10}));
+      res.send({ status: "success" });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   private async create(req: Request, res: Response, next: NextFunction) {
     try {
+      console.log('BODY:');
+      console.log(req.body);
       await this.controller.create(req.body);
       res.send({ status: "success" });
     } catch (err) {
@@ -41,6 +55,7 @@ class TodoRouter implements INimkeeMiddleware {
   public init() {
     this.router.post("/todos", this.create.bind(this));
     this.router.get("/todos", this.getAll.bind(this));
+    this.router.get("/test",this.test.bind(this));
     this.app.use("/api/v1", this.router);
   }
 }
