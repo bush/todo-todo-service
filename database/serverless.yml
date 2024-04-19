@@ -28,7 +28,8 @@ provider:
   runtime: nodejs18.x
   stage: dev
   region: us-east-1
-  profile: ${self:custom.profile.${self:custom.stage}}
+  #profile: ${self:custom.profile.${self:custom.stage}}
+  profile: default
 
 # Create our resources with separate CloudFormation templates
 resources:

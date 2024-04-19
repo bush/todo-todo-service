@@ -1,7 +1,6 @@
-import { Server } from "http";
 import { Application } from "express";
 import serverless from "serverless-http";
-import { INimkeeServerlessApp, INimkeeMiddleware, NimkeeAppConfig } from "./interface";
+import { INimkeeServerlessApp, INimkeeMiddleware } from "./interface";
 
 export class NimkeeServerlessApp implements INimkeeServerlessApp {
   private app: Application;
