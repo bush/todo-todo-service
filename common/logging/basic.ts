@@ -1,6 +1,6 @@
-import { ILogger } from "./loggerFactory";
+import { INimkeeLogger } from "./interface";
 
-class BasicLogger implements ILogger {
+class BasicLogger implements INimkeeLogger {
 
   public info(...data: any[]): void {
     console.info(...data);
@@ -12,6 +12,10 @@ class BasicLogger implements ILogger {
 
   public error(...data: any[]): void {
     console.error(...data);
+  }
+
+  public log(...data: any[]): void {
+    console.log(...data);
   }
 }
 

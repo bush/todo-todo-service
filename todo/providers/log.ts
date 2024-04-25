@@ -1,10 +1,11 @@
 import Container from "../../common/ioc/container";
 import { AppContainer } from "./interface";
-import { NimkeeError } from "../../common/interface";
+import LoggerFactory from "../../common/logging/logger-factory";
 
 export default function (c: Container) {
-  c.service("Error", (c) => {
+  c.service("Logger", (c) => {
     const appC = c as AppContainer;
-    return new NimkeeError(appC.Express);
+    const logger = appC.config.app.logger;
+    return LoggerFactory.create(logger);
   });
 }

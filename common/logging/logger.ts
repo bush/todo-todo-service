@@ -1,4 +1,4 @@
-import LoggerFactory from "./loggerFactory";
+import LoggerFactory from "./logger-factory";
 
 class Logger {
   private strategy = LoggerFactory.create();
@@ -27,6 +27,10 @@ class Logger {
 
   public info(...data: any[]): void {
     if(this.isOn) { this.strategy.info(...data); }
+  }
+
+  public log(...data: any[]): void {
+    if(this.isOn) { this.strategy.log(...data); }
   }
 }
 

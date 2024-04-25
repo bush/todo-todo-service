@@ -1,15 +1,10 @@
+import { INimkeeLogger, NimkeeLoggerType } from "./interface";
 import BasicLogger from "./basic";
 
-export interface ILogger {
-  warn(...data: any[]): void;
-  error(...data: any[]): void;
-  info(...data: any[]): void;
-}
-
 class LoggerFactory {
-  public static create(strategy?: string): ILogger {
+  public static create(strategy?: string): INimkeeLogger {
     switch (strategy) {
-      case "basic":
+      case NimkeeLoggerType.BASIC:
         return new BasicLogger();
       default:
         return new BasicLogger();

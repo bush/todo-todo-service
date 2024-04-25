@@ -2,25 +2,26 @@ import config from "../config";
 import Joi from "joi";
 import Container from "../../common/ioc/container";
 import {
-  NimkeeAppConfig,
+  NimkeeServerConfig,
   NimkeeApplicationMode,
   NimkeeDBConfig,
   NimkeeDBType,
   NimkeeDeploymentEnv,
+  NimkeeLoggerType
 } from "../../common/interface";
 import { NimkeeDBStorageMapper } from "../todo/interface";
-import { HttpConfig } from "../../common/interface";
+
+import { HttpConfig } from "../../common/express/middleware/http";
 
 const envVarsSchema = Joi.object({
   app: Joi.object({
-    options: Joi.object({
+    server: Joi.object({
       env: Joi.string()
         .valid(
           NimkeeDeploymentEnv.PRODUCTION,
           NimkeeDeploymentEnv.DEVELOPMENT,
           NimkeeDeploymentEnv.TEST
-        )
-        .required(),
+        ),
       mode: Joi.string()
         .valid(NimkeeApplicationMode.SERVER, NimkeeApplicationMode.SERVERLESS)
         .default(NimkeeApplicationMode.SERVER),
@@ -40,6 +41,7 @@ const envVarsSchema = Joi.object({
         }),
       }),
     }),
+    logger: Joi.string().valid(NimkeeLoggerType.BASIC).default(NimkeeLoggerType.BASIC),
     todo: Joi.object({
       route: Joi.string().required(),
       storage: Joi.object({
@@ -110,10 +112,11 @@ if (error) {
 
 export type AppConfig = {
   app: {
-    options: NimkeeAppConfig;
+    server: NimkeeServerConfig;
     middleware: {
       http: HttpConfig;
     };
+    logger: NimkeeLoggerType;
     todo: {
       route: string;
       storage: {
