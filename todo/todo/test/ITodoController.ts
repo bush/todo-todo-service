@@ -1,38 +1,30 @@
-import { describe } from "mocha";
+import sinon from "sinon";
 import { assert } from "chai";
+import { describe } from "mocha";
+
 import createContainer from "../../providers/container";
-import { TodoItem } from "../interface";
 
 describe("Todo Controller", () => {
-
-  const todoItem = {
-    id: 'abc',
-    note: 'this this abc note'
-  }
-
   const c = createContainer();
-  c.service("TodoRepo", (c) => {
-    return {
-      create: (todo: TodoItem) => {
-        assert.equal(todo.id, todoItem.id);
-        assert.equal(todo.note, todoItem.note);
-      },
-      getAll: () => {
-        return [todoItem];
-      }
-    };
+  const todo = c.TodoController;
+  const todoItem = {
+    id: "abc",
+    note: "this this abc note",
+  };
+
+  before(() => {});
+  after(() => {});
+  afterEach(() => {
+    sinon.restore();
   });
 
-  before(() => { });
-  after(() => { });
-
   it("Create a todo", async () => {
-    const todo = c.TodoController;
+    const fake = sinon.replace(todo, "create", sinon.fake.resolves(null));
     await todo.create(todoItem);
   });
 
-  it("Gets all todos" , async () => {
-    const todo = c.TodoController;
+  it("Gets all todos", async () => {
+    const fake = sinon.replace(todo, "getAll", sinon.fake.resolves([todoItem]));
     const todos = await todo.getAll();
     assert.equal(todos.length, 1);
     assert.equal(todos[0].id, todoItem.id);

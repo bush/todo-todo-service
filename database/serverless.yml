@@ -9,7 +9,8 @@ custom:
   stage: ${opt:stage, self:provider.stage}
   profile:
     dev: default 
-    prod: todo-prod
+    prod: default
+    test: default
   todoTableName: ${self:service}-${self:custom.stage}
   todoPKName: pk
   todoSKName: sk
@@ -28,8 +29,7 @@ provider:
   runtime: nodejs18.x
   stage: dev
   region: us-east-1
-  #profile: ${self:custom.profile.${self:custom.stage}}
-  profile: default
+  profile: ${self:custom.profile.${self:custom.stage}}
 
 # Create our resources with separate CloudFormation templates
 resources:

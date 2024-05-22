@@ -6,7 +6,7 @@ import { ITodoController } from "./interface";
 // NOTE:
 // This could be broken up to several classes, one for each route
 // If we wanted to have true separation of routes for the serverless
-// configuration we could break this appart and have a separate instance
+// configuration we could break this apart and have a separate instance
 // of the express app for each route.
 
 class TodoRoutes implements INimkeeMiddleware {

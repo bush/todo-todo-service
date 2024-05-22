@@ -7,7 +7,7 @@ class TodoController implements ITodoController {
     this.todoRepo = todoRepo;
   }
 
-  public async create(todo: TodoItem): Promise<any> {
+  public async create(todo: TodoItem): Promise<void> {
      return this.todoRepo.create(todo); 
   }
 
@@ -17,4 +17,3 @@ class TodoController implements ITodoController {
 }
 
 export default TodoController;
-

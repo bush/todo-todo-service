@@ -7,4 +7,4 @@ Action:
   - dynamodb:UpdateItem
   - dynamodb:DeleteItem
 Resource:
-  - 'Fn::ImportValue': Todos-Arn
+  - 'Fn::ImportValue': Todos-Arn-${self:custom.stage}

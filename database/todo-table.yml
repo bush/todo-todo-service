@@ -22,17 +22,17 @@ Outputs:
   TodoArn:
     Value: !GetAtt Todos.Arn
     Export:
-      Name: Todos-Arn
+      Name: Todos-Arn-${self:custom.stage}
   TodoName:
     Value:
       Ref: Todos
     Export:
-      Name: Todos-Name
+      Name: Todos-Name-${self:custom.stage}
   TodoPKName:
     Value: ${self:custom.todoPKName}
     Export:
-      Name: Todos-PK-Name
+      Name: Todos-PK-Name-${self:custom.stage}
   TodoSKName:
     Value: ${self:custom.todoSKName}
     Export:
-      Name: Todos-SK-Name
+      Name: Todos-SK-Name-${self:custom.stage}
