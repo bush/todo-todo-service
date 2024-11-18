@@ -1,0 +1,19 @@
+[
+  {
+    "pk": "user-1",
+    "sk": "todo-1",
+    "some-attr": "foo"
+  },
+  {
+    "pk": "user-1",
+    "sk": "todo-2"
+  },
+  {
+    "pk": "user-1",
+    "sk": "todo-3",
+    "blob": {
+      "foo": "bar",
+      "car": "tar"
+    }
+  }
+]

@@ -1,0 +1,1 @@
+{"version":3,"file":"log-error.d.ts","sourceRoot":"","sources":["../../../src/server/express/log-error.ts"],"names":[],"mappings":"AAkBA,OAAO,EAAE,WAAW,EAAmC,MAAM,SAAS,CAAC;AACvE,OAAO,EAAE,iBAAiB,EAAE,MAAM,cAAc,CAAC;AAEjD;;GAEG;AACH,qBAAa,cAAe,YAAW,iBAAiB;IAC1C,OAAO,CAAC,GAAG;gBAAH,GAAG,EAAE,WAAW;IAE7B,KAAK,IAAI,IAAI;CAOrB"}

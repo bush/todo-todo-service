@@ -1,0 +1,7 @@
+name: todo-scaffold
+runtime: nodejs
+description: scaffold for the todo contoller
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-typescript

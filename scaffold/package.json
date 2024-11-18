@@ -1,0 +1,19 @@
+{
+  "name": "scaffold",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "stack": "pulumi -C pulumi stack output -s scaffold --json",
+    "up": "pulumi -C pulumi up -s scaffold --yes",
+    "down": "pulumi -C pulumi down -s scaffold --yes",
+    "reset": "npm run down ; npm run up; npm run --silent stack | tee stack.json",
+    "dev": "ts-node"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.588.0",
+    "@aws-sdk/lib-dynamodb": "^3.588.0"
+  }
+}

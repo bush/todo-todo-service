@@ -1,0 +1,1 @@
+{"version":3,"file":"general-error.d.ts","sourceRoot":"","sources":["../../../src/server/express/general-error.ts"],"names":[],"mappings":"AAoBA,OAAO,EAAE,WAAW,EAAmC,MAAM,SAAS,CAAC;AACvE,OAAO,EAAE,iBAAiB,EAAE,MAAM,cAAc,CAAC;AAEjD;;GAEG;AACH,qBAAa,kBAAmB,YAAW,iBAAiB;IAC9C,OAAO,CAAC,GAAG;gBAAH,GAAG,EAAE,WAAW;IAE7B,KAAK,IAAI,IAAI;CASrB"}

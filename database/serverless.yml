@@ -2,6 +2,7 @@ service: todo-storage
 
 plugins:
   - serverless-dynamodb-local
+  - serverless-offline
 
 custom:
   # Our stage is based on what is passed in when running serverless
@@ -11,6 +12,16 @@ custom:
     dev: default 
     prod: default
     test: default
+  dynamodb:
+    stages:
+      - dev
+    start:
+      docker: true
+      port: 8000
+      inMemory: true
+      migrate: true
+      seed: true
+      convertEmptyValues: true
   todoTableName: ${self:service}-${self:custom.stage}
   todoPKName: pk
   todoSKName: sk

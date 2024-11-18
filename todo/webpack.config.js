@@ -14,6 +14,10 @@ module.exports = {
     extensions: ['.mjs', '.json', '.ts', '.js'],
     symlinks: false,
     cacheWithContext: false,
+    alias: {
+      root: [path.resolve('.')],
+      todo: path.resolve(__dirname, 'todo/'),
+    },
   },
   output: {
     libraryTarget: 'commonjs',
